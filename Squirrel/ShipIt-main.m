@@ -122,7 +122,11 @@ static void installRequest(RACSignal *readRequestSignal, NSString *applicationId
 						NSError *error;
 						if (![NSWorkspace.sharedWorkspace launchApplicationAtURL:bundleURL options:NSWorkspaceLaunchDefault configuration:@{} error:&error]) {
 							NSLog(@"Could not launch application at %@: %@", bundleURL, error);
-							return;
+							NSLog(@"Trying again...");
+							if (![NSWorkspace.sharedWorkspace launchApplicationAtURL:bundleURL options:NSWorkspaceLaunchDefault configuration:@{} error:&error]) {
+								NSLog(@"Could not launch application at %@: %@", bundleURL, error);
+								return;
+							}
 						}
 
 						NSLog(@"Application launched at %@", bundleURL);
